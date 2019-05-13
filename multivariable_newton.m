@@ -1,4 +1,4 @@
-function [valuesToGraphX,valuesToGraphF,valuesToGraphError, iteraciones] = multivariable_newton()
+function [valuesToGraphX,valuesToGraphF,valuesToGraphError, maxIteraciones] = multivariable_newton()
     syms x y z
     functions = [x^2+y-37;x-y^2-5;x+y+z-3];
     x0=[0; 0; 0];
@@ -6,9 +6,9 @@ function [valuesToGraphX,valuesToGraphF,valuesToGraphError, iteraciones] = multi
     inline_functions=inline(functions);
     inline_jac=inline(jac);
     error = norm(inline_functions(x0(1),x0(2),x0(3)),2);
-    tolerancia=0.0000005;
-    iteraciones = 30;
-    i = 1;
+    tolerancia=0.00000000000000000005;
+    maxIteraciones = 12;
+    contador = 1;
 
     valuesToGraphX = [];
     valuesToGraphF = [];
@@ -17,7 +17,7 @@ function [valuesToGraphX,valuesToGraphF,valuesToGraphError, iteraciones] = multi
     valuesToGraphX = [valuesToGraphX,x0];
     valuesToGraphError = [valuesToGraphError,error];
 
-    while error >= tolerancia
+    while contador < maxIteraciones
 
         function_x = inline_functions(x0(1),x0(2),x0(3));
         jac_x = inline_jac(x0(1),x0(2));
@@ -28,13 +28,9 @@ function [valuesToGraphX,valuesToGraphF,valuesToGraphError, iteraciones] = multi
         valuesToGraphError = [valuesToGraphError,error];
         valuesToGraphX = [valuesToGraphX, x1];
         valuesToGraphF = [valuesToGraphF, fx1];
-
-        if i > iteraciones
-            fprintf(' No hay más iteraciones \n');
-            break;
-        end
+        
         x0=x1;
-        i=i+1;
+        contador=contador+1;
     end
 end
 

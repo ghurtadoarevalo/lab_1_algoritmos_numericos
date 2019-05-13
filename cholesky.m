@@ -1,4 +1,4 @@
-function [sol,error,costo]=cholesky(A, b)
+function [sol,error,costos]=cholesky(A, b)
 
     % sol es vector solución
     % error es el error final
@@ -6,20 +6,21 @@ function [sol,error,costo]=cholesky(A, b)
     % b vector del sistema
 
     [n,m]=size(A);
-    costo = 0;
+    costos = 1;
     for k = 1 : n
         A(k,k) = sqrt(A(k,k));
         A(k+1:n,k) = A(k+1:n,k)/A(k,k);
-        costo= costo+2;
+        costos= costos+5;
         for j = k + 1 : n
             A(j:n,j) = A(j:n,j) - A(j,k)*A(j:n,k);
-            costo = costo + 2;
+            costos = costos + 4;
         end
     end
     
     L = tril(A);
     z = inv(L)*b;
     sol = inv(L')*z;
+    
     error = norm(eye(n)-inv(L*L')*A);
-    costo = costo + 1;
+    costos = costos + 13;
 end

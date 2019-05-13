@@ -1,24 +1,43 @@
-function [sol,error,contador] = givens(A,b)
+function [sol,error,costo] = givens(A,b)
 
     % sol es vector solución
     % error es el error final
     % A matriz del sistema
     % b vector del sistema
     
-    contador = 0;
-    [m,n] = size(A);
-    Q = eye(m);
-    R = A;
+    costo = 0;
+    [n,m] = size(A);
+     
+    %if(n > 1000 && n <= 2000)
+        %mitad de la matriz
+    %    Nkeep = n/2;
+    %    A=A(1:Nkeep,1:Nkeep);
+    %    b=b(1:Nkeep);
     
-    for i=1:n
-        for k=i+1:m
+    %elseif(n > 2000 && n <= 5000)
+        %cuarto de la matriz
+    %    Nkeep = n/4;
+    %    A=A(1:Nkeep,1:Nkeep);
+    %    b=b(1:Nkeep);
+    %else
+        %octavo de la matriz
+    %    Nkeep = n/8;
+    %    A=A(1:Nkeep,1:Nkeep);
+    %    b=b(1:Nkeep);
+    %end
+    
+    %[n,m] = size(A);
+    
+    Q = eye(n);
+    R = A;
+    costo = costo + 3;
+    for i=1:m
+        for k=i+1:n
             if (R(k,i) ~= 0)
-                contador = contador + 1;
-                
                 raiz = sqrt(R(k,i)^2 + R(i,i)^2);
                 s = -R(k,i)/raiz;
                 c = R(i,i)/raiz;
-                G = eye(m); 
+                G = eye(n); 
                 
                 G(k,k) = c;
                 G(i,i) = c;
@@ -28,15 +47,13 @@ function [sol,error,contador] = givens(A,b)
                 
                 Q = Q*G; 
                 R = G'*R; 
-                
+                costo = costo + 17;
             end
         end
-        
-        contador = contador + 1;
     end
-    
-      Y = inv(Q)*b;  
-      sol = inv(R)*Y;
-      error = norm(eye(n)-inv(Q*R)*A);
-      contador = contador + 1;
+
+    Y = inv(Q)*b;  
+    sol = inv(R)*Y;
+    error = norm(eye(m)-inv(Q*R)*A);
+    costo = costo + 13;
 end
