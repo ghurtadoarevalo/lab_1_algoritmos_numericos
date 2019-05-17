@@ -3,14 +3,14 @@ format long
 clear all
 %close all 
 
-A = load('sistemas/289x289/A289.dat');
-b = load('sistemas/289x289/b289.dat');
+%A = load('sistemas/289x289/A289.dat');
+%b = load('sistemas/289x289/b289.dat');
 
 %A = load('sistemas/1089x1089/A1089.dat');
 %b = load('sistemas/1089x1089/b1089.dat');
-
-%A = load('sistemas/4225x4225/A4225.dat');
-%b = load('sistemas/4225x4225/b4225.dat');
+    
+A = load('sistemas/4225x4225/A4225.dat');
+b = load('sistemas/4225x4225/b4225.dat');
 
 estabilidadNumerica = false;
 gestor = true;
@@ -19,13 +19,6 @@ calcularTiempoMetodos = true;
 [n,m] = size(A);
 
 [valuesToGraphX,valuesToGraphF,valuesToGraphError, iteraciones] = multivariable_newton();
-
-figure
-plot(valuesToGraphX')
-figure
-plot(valuesToGraphF')
-figure
-plot(valuesToGraphError)
 
 if(gestor == true)
     tic
@@ -186,7 +179,6 @@ elseif(gestor == false && calcularTiempoMetodos == false)
 
         %plot para todos los errores de los métodos
         plotErrors(err_graph)
-    
     end
 end
 
